@@ -1,5 +1,5 @@
 # budget-tracker
-  * [Project Repo](https://github.com/escowin/bduget-tracker)
+  * [Project Repo](https://github.com/escowin/budget-tracker)
   * [Live URL](https://blooming-savannah-44795.herokuapp.com/)
   
   ## DESCRIPTION
