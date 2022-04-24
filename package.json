@@ -1,0 +1,25 @@
+{
+  "name": "budget-tracker",
+  "version": "1.0.0",
+  "description": "tracking budget",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/escowin/budget-tracker.git"
+  },
+  "keywords": [
+    "PWA"
+  ],
+  "author": "Edwin Escobar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/escowin/budget-tracker/issues"
+  },
+  "homepage": "https://github.com/escowin/budget-tracker#readme",
+  "dependencies": {
+    "webpack-dev-server": "^4.8.1"
+  }
+}
