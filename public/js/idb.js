@@ -29,7 +29,7 @@ function saveRecord(record) {
     newObjectStore.add(record);
 };
 
-// function | upload transaction
+// function | upload transactions
 function uploadTransaction() {
     const transaction = db.transaction(["new_transaction"], "readwrite");
     const transactionObjectStore = transaction.objectStore("new_transaction");
@@ -64,4 +64,5 @@ function uploadTransaction() {
       };
     }
 
+// online connections uploads transactions
 window.addEventListener('online', uploadTransaction); 
