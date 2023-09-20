@@ -1,25 +1,20 @@
 const { Schema, model } = require("mongoose");
+const { itemSchema } = require("./Item");
 const dateFormat = require("../utils/dateFormat");
 
 const BudgetSchema = new Schema(
   {
-    income: {
+    title: {
       type: String,
       required: true,
       trim: true,
     },
-    assets: {
+    type: {
       type: String,
+      required: true,
       trim: true,
     },
-    expense: {
-      type: String,
-      trim: true,
-    },
-    debt: {
-      type: String,
-      trim: true
-    },
+    items: [itemSchema],
     createdAt: {
       type: Date,
       default: Date.now,
@@ -30,11 +25,15 @@ const BudgetSchema = new Schema(
     toJSON: {
       getters: true,
     },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
 
 // virtuals | calculates annual, quarterly, and monthly budget from income, asset, and expense data
-
 
 const Budget = model("Budget", BudgetSchema);
 
