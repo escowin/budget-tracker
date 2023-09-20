@@ -4,10 +4,18 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    // query async methods
+    self: async (parent, args, context) => {},
+    users: async () => {},
+    user: async (parent,{ username }) => {},
+    budgets: async (parent, { username }) => {},
+    budget: async (parent, { _id }) => {},
+
   },
   Mutation: {
-    // mutation async methods
+    addUser: async (parent, args) => {},
+    login: async (parent, { username, password }) => {},
+    addBudget: async (parent, args, context) => {},
+    addItem: async (parent, args, context) => {}
   },
 };
 
