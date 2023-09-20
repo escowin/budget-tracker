@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-require("dotenv")
+require("dotenv").config()
 
 // optional | secrets should be stored in .env
 const secret = process.env.AUTH_SECRET;

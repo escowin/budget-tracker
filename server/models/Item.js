@@ -16,7 +16,7 @@ const ItemSchema = new Schema(
       required: true,
       trim: true,
       validate: {
-        validation: (value) => validate.type(value, type),
+        validator: (value) => validate.type(value, type),
         message: "invalid type",
       },
     },

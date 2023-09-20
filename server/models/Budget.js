@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
-const { itemSchema } = require("./Item");
-const { validate } = require("../utils/helpers");
+const itemSchema = require("./Item");
 const dateFormat = require("../utils/dateFormat");
+const { validate } = require("../utils/helpers");
 
 const type = ["personal", "business", "estate"];
 
@@ -18,7 +18,7 @@ const BudgetSchema = new Schema(
       required: true,
       trim: true,
       validate: {
-        validation: (value) => validate.type(value, type),
+        validator: (value) => validate.type(value, type),
         message: "invalid type",
       },
     },
