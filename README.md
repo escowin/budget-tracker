@@ -1,24 +1,54 @@
 # budget-tracker
-  * [Project Repo](https://github.com/escowin/bduget-tracker)
-  * [Live URL]()
-  
-  ## DESCRIPTION
-  * Progressive Web Applications (PWA) Challenge: Budget Tracker
-  * A budget tracking app that functions offline. Withdrawals & deposits entered offline upload when a network connection is made.
-  
-  ## TABLE OF CONTENTS
-  * [Installation](#INSTALLATION)
-  
-  * [Questions](#QUESTIONS)
-  
-  ## INSTALLATION
-  ### iOS
-  * Open in Safari
-  * Tap Share
-  * Tap Add to Home Screen
-  * App is now on Home Screen
 
+## Description
+[Repo](https://github.com/escowin/budget-tracker) 
 
-  ## QUESTIONS? CONTACT ME
-  * edwin@escowinart.com
-  * [GitHub](https://github.com/escowin)
+Utilizes the MERN tech stack, GraphQL, and IndexedDB to store, access, and calculate financial budgets.
+
+## Table of Contents
+- [Installation](#installation)
+- [Test](#test)
+- [Usage](#usage)
+- [Features](#features)
+- [Credits](#credits)
+- [Author](#author)
+
+## Installation
+Run the following command to install necessary dependencies:
+```
+$ npm i
+```
+
+## Test
+Run the following command to run tests:
+```
+$ npm run test
+```
+
+## Usage
+Run the following command to run app:
+```
+$ npm run develop
+```
+
+![mobile](./assets/img/budget-tracker-sm.jpg)
+
+![tablet](./assets/img/budget-tracker-md.jpg)
+
+![desktop](./assets/img/budget-tracker-lg.jpg)
+
+## Features
+- read, add, update, and delete budgets
+- user data encryption
+- offline memory persistence
+
+## Credits
+- Languages: CSS, Javascript, GraphQL
+- Frameworks: Node, Express, Jest
+- Libraries: bcrypt, Mongoose, React, webpack
+- Database: mongoDB
+
+## Author
+### Edwin Escobar
+- [Email](mailto:edwin@escowinart.com)
+- [GitHub](https://github.com/escowin)
