@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js",
+    "watch": "nodemon",
+    "seed": "node seeders/seeds.js",
+    "deploy": "npm i && cd ../client && npm i && npm run build"
+  },
+  "keywords": [],
+  "author": "Edwin Escobar",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^3.12.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "graphql": "^16.7.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "4.0",
+    "mongoose": "^7.3.1"
+  },
+  "devDependencies": {
+    "chance": "^1.1.11",
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.22"
+  }
+}

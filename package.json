@@ -1,32 +1,28 @@
 {
   "name": "budget-tracker",
   "version": "1.0.0",
-  "description": "tracking budget",
+  "description": "Utilizes the MERN tech stack, GraphQL, and IndexedDB to store, access, and calculate financial budgets",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "lite-server": "lite-server"
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/escowin/budget-tracker.git"
   },
-  "keywords": [
-    "PWA"
-  ],
-  "author": "Edwin Escobar",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/escowin/budget-tracker/issues"
   },
   "homepage": "https://github.com/escowin/budget-tracker#readme",
-  "dependencies": {
-    "compression": "^1.7.4",
-    "express": "^4.17.3",
-    "lite-server": "^2.6.1",
-    "mongoose": "^6.3.1",
-    "morgan": "^1.10.0",
-    "webpack-dev-server": "^4.8.1"
+  "devDependencies": {
+    "concurrently": "^8.2.0"
   }
 }
