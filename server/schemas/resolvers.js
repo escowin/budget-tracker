@@ -8,6 +8,7 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError("login required");
       }
+
       const user = await User.findOne({ _id: context.user._id })
         .select("-__v -password")
         .populate("budgets");
@@ -23,6 +24,7 @@ const resolvers = {
     budgets: async () => Budget.find()
   },
   Mutation: {
+    // user
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -42,18 +44,18 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+
+    // budget
     addBudget: async (parent, args, context) => {
       if (!context.user) {
         throw new AuthenticationError("login required")
       }
+
       const budget = await Budget.create({
         ...args,
         username: context.user.username
       })
-      console.log(budget)
-      console.log(context)
-
-      // establishes user-budget relationship
+      // - establishes user-budget relationship
       await User.findByIdAndUpdate(
         { _id: context.user._id },
         { $push: { budgets: budget._id }},
@@ -61,8 +63,21 @@ const resolvers = {
       )
       return budget;
     },
+
+    // item
     addItem: async (parent, args, context) => {
-      console.log("hey");
+      if (!context.user) {
+        throw new AuthenticationError("login required")
+      }
+
+      const { budgetId, ...itemData } = args
+      const updatedBudget = await Budget.findOneAndUpdate(
+        { _id: budgetId },
+        { $push: { items: itemData } },
+        { new: true, runValidators: true }
+      )
+
+      return updatedBudget
     },
   },
 };

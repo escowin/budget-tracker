@@ -1,7 +1,7 @@
 const { Schema } = require("mongoose");
 const { validate } = require("../utils/helpers");
 
-const type = ["income", "asset", "debt", "expense"];
+const type = ["income", "expense"];
 
 const ItemSchema = new Schema(
   {
@@ -19,6 +19,11 @@ const ItemSchema = new Schema(
         validator: (value) => validate.type(value, type),
         message: "invalid type",
       },
+    },
+    num: {
+      type: Number,
+      required: true,
+      min: 0,
     },
     note: {
       type: String,
