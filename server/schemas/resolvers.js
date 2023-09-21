@@ -20,8 +20,8 @@ const resolvers = {
         .populate("budgets");
     },
     users: async () => User.find().select("-__v -password").populate("budgets"),
-    budget: async (parent, { _id }) => Budget.findOne({_id}),
-    budgets: async () => Budget.find()
+    budget: async (parent, { _id }) => Budget.findOne({ _id }),
+    budgets: async () => Budget.find(),
   },
   Mutation: {
     // user
@@ -48,41 +48,100 @@ const resolvers = {
     // budget
     addBudget: async (parent, args, context) => {
       if (!context.user) {
-        throw new AuthenticationError("login required")
+        throw new AuthenticationError("login required");
       }
 
       const budget = await Budget.create({
         ...args,
-        username: context.user.username
-      })
+        username: context.user.username,
+      });
       // - establishes user-budget relationship
       await User.findByIdAndUpdate(
         { _id: context.user._id },
-        { $push: { budgets: budget._id }},
+        { $push: { budgets: budget._id } },
         { new: true }
-      )
+      );
       return budget;
     },
-    editBudget: async () => {},
-    deleteBudget: async () => {},
+    editBudget: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("login required");
+      }
+
+      const { _id, ...updatedFields } = args;
+      const budget = await Budget.findByIdAndUpdate(
+        _id,
+        { $set: updatedFields },
+        { new: true }
+      );
+      if (!budget) {
+        throw new Error("budget not found");
+      }
+
+      return budget;
+    },
+    deleteBudget: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("login required");
+      }
+
+      try {
+        const budget = await Budget.findByIdAndDelete(_id);
+        // removes the deleted item from user budget field
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: { budgets: budget._id } },
+          { new: true }
+        );
+
+        return budget;
+      } catch (err) {
+        throw new Error("failed to delete budget");
+      }
+    },
 
     // item
     addItem: async (parent, args, context) => {
       if (!context.user) {
-        throw new AuthenticationError("login required")
+        throw new AuthenticationError("login required");
       }
 
-      const { budgetId, ...itemData } = args
+      const { budgetId, ...itemData } = args;
       const updatedBudget = await Budget.findOneAndUpdate(
         { _id: budgetId },
         { $push: { items: itemData } },
         { new: true, runValidators: true }
-      )
+      );
 
-      return updatedBudget
+      return updatedBudget;
     },
-    editItem: async () => {},
-    deleteItem: async () => {}
+    editItem: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("login required");
+      }
+
+      console.log(args);
+    },
+    deleteItem: async (parent, { _id, budgetId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("login required");
+      }
+
+      try {
+        const updatedBudget = await Budget.findOneAndUpdate(
+          { _id: budgetId },
+          { $pull: { items: { _id: _id } } },
+          { new: true, runValidators: true }
+        );
+        if (!updatedBudget) {
+          throw new Error("budget not found");
+        }
+
+        return updatedBudget;
+      } catch (err) {
+        throw new Error("failed to delete item");
+      }
+    },
   },
 };
 
