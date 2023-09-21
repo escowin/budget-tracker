@@ -7,7 +7,10 @@ test("test validation", () => {
     expect(validate.type(value.b, arr)).toBe(false)
 })
 
-test("returns YYYY-MM-DD hh:mm a timestamp", () => {
+test("returns YYYY-MM-DD hh:mm:ss a timestamp", () => {
     const date = new Date()
-    expect(format.date(date)).toEqual(expect.any(String))
+    const formattedDate = format.date(date)
+    const regex = /^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2} [APap][Mm]$/;
+
+    expect(regex.test(formattedDate)).toBe(true)
 })
