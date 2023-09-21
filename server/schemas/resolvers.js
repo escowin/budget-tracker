@@ -119,8 +119,6 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError("login required");
       }
-
-      console.log(args);
     },
     deleteItem: async (parent, { _id, budgetId }, context) => {
       if (!context.user) {

@@ -15,6 +15,9 @@ const typeDefs = gql`
     description: String
     username: String
     createdAt: String
+    totalIncome: Float
+    totalExpense: Float
+    total: Float
     items: [Item]
   }
 

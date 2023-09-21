@@ -29,7 +29,7 @@ const BudgetSchema = new Schema(
     },
     username: {
       type: String,
-      required: true
+      required: true,
     },
     createdAt: {
       type: Date,
@@ -49,6 +49,47 @@ const BudgetSchema = new Schema(
     },
   }
 );
+
+BudgetSchema.virtual("totalIncome").get(function () {
+  // checks for an existing items array
+  if (!this.items) {
+    return 0;
+  }
+
+  // creates an array of "income" items
+  const arr = this.items
+    .filter((item) => item.type === "income")
+    .map((item) => item.num);
+  if (arr.length === 0) {
+    return 0;
+  }
+
+  const sum = arr.reduce((accumulator, numValue) => {
+    return accumulator + numValue;
+  }, 0);
+  return sum;
+});
+
+BudgetSchema.virtual("totalExpense").get(function () {
+  if (!this.items) {
+    return 0;
+  }
+  const arr = this.items
+    .filter((item) => item.type === "expense")
+    .map((item) => item.num);
+  if (arr.length === 0) {
+    return 0;
+  }
+
+  const sum = arr.reduce((accumulator, numValue) => {
+    return accumulator + numValue;
+  }, 0);
+  return sum;
+});
+
+BudgetSchema.virtual("total").get(function () {
+  return this.totalIncome - this.totalExpense;
+});
 
 // virtuals | calculates annual, quarterly, and monthly budget from income, asset, and expense data
 
