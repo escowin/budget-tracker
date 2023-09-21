@@ -63,6 +63,8 @@ const resolvers = {
       )
       return budget;
     },
+    editBudget: async () => {},
+    deleteBudget: async () => {},
 
     // item
     addItem: async (parent, args, context) => {
@@ -79,6 +81,8 @@ const resolvers = {
 
       return updatedBudget
     },
+    editItem: async () => {},
+    deleteItem: async () => {}
   },
 };
 
