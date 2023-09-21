@@ -5,18 +5,22 @@ const { signToken } = require("../utils/auth");
 const resolvers = {
   Query: {
     self: async (parent, args, context) => {
-      if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id })
-          .select("-__v -password")
-          .populate("budgets");
-        return userData;
+      if (!context.user) {
+        throw new AuthenticationError("login required");
       }
-      throw new AuthenticationError("login required");
+      const user = await User.findOne({ _id: context.user._id })
+        .select("-__v -password")
+        .populate("budgets");
+      return user;
     },
-    users: async () => {},
-    user: async (parent, { username }) => {},
-    budgets: async (parent, { username }) => {},
-    budget: async (parent, { _id }) => {},
+    user: async (parent, { username }) => {
+      return User.findOne({ username })
+        .select("-__v -password")
+        .populate("budgets");
+    },
+    users: async () => User.find().select("-__v -password").populate("budgets"),
+    budget: async (parent, { _id }) => Budget.findOne({_id}),
+    budgets: async () => Budget.find()
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -39,7 +43,14 @@ const resolvers = {
       return { token, user };
     },
     addBudget: async (parent, args, context) => {
-      console.log("hey");
+      if (!context.user) {
+        throw new AuthenticationError("login required")
+      }
+      const budget = await Budget.create({
+        ...args,
+        username: context.user.username
+      })
+      return budget;
     },
     addItem: async (parent, args, context) => {
       console.log("hey");
