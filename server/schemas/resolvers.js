@@ -50,6 +50,15 @@ const resolvers = {
         ...args,
         username: context.user.username
       })
+      console.log(budget)
+      console.log(context)
+
+      // establishes user-budget relationship
+      await User.findByIdAndUpdate(
+        { _id: context.user._id },
+        { $push: { budgets: budget._id }},
+        { new: true }
+      )
       return budget;
     },
     addItem: async (parent, args, context) => {

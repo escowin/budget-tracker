@@ -4,6 +4,7 @@ const typeDefs = gql`
     type User {
         _id: ID
         username: String
+        budgetCount: Int
         budgets: [Budget]
     }
 
@@ -12,8 +13,9 @@ const typeDefs = gql`
         title: String
         type: String
         description: String
-        items: [Item]
+        username: String
         createdAt: String
+        items: [Item]
     }
 
     type Item {

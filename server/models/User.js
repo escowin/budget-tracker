@@ -37,7 +37,15 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+UserSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
+
 // virtuals | quantifies user's assets & expenses
+UserSchema.virtual("budgetCount").get(function () {
+  return this.budgets.length
+})
 
 const User = model("User", UserSchema);
 

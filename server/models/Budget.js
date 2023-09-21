@@ -28,12 +28,16 @@ const BudgetSchema = new Schema(
       trim: true,
       maxlength: 250,
     },
-    items: [itemSchema],
+    username: {
+      type: String,
+      required: true
+    },
     createdAt: {
       type: Date,
       default: Date.now,
       get: (timestamp) => dateFormat(timestamp),
     },
+    items: [itemSchema],
   },
   {
     toJSON: {
