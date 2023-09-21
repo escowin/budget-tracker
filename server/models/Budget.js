@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const itemSchema = require("./Item");
-const dateFormat = require("../utils/dateFormat");
-const { validate } = require("../utils/helpers");
+const { validate, format } = require("../utils/helpers");
 
 const type = ["personal", "business", "estate"];
 
@@ -35,7 +34,7 @@ const BudgetSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (timestamp) => dateFormat(timestamp),
+      get: (timestamp) => format.date(timestamp),
     },
     items: [itemSchema],
   },

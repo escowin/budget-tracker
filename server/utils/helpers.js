@@ -5,4 +5,12 @@ const validate = {
     }
 }
 
-module.exports = { validate }
+const format = {
+    date: (string) => {
+        const date = string.toISOString().split("T")[0]
+        const time = string.toLocaleTimeString()
+        return `${date} ${time}`
+    }
+}
+
+module.exports = { validate, format }
