@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const itemSchema = require("./Item");
 const { validate, format } = require("../utils/helpers");
 
-const type = ["personal", "business", "estate"];
+const label = ["personal", "business", "estate"];
 
 const BudgetSchema = new Schema(
   {
@@ -12,13 +12,13 @@ const BudgetSchema = new Schema(
       trim: true,
       maxlength: 50,
     },
-    type: {
+    label: {
       type: String,
       required: true,
       trim: true,
       validate: {
-        validator: (value) => validate.type(value, type),
-        message: "invalid type",
+        validator: (value) => validate.type(value, label),
+        message: "invalid label",
       },
     },
     description: {

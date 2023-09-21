@@ -11,7 +11,7 @@ const typeDefs = gql`
   type Budget {
     _id: ID
     title: String
-    type: String
+    label: String
     description: String
     username: String
     createdAt: String
@@ -39,8 +39,8 @@ const typeDefs = gql`
     login(username: String!, password: String!): Auth
     addUser(username: String!, password: String!): Auth
 
-    addBudget(title: String!, type: String!, description: String): Budget
-    editBudget(title: String, type: String, description: String): Budget
+    addBudget(title: String!, label: String!, description: String): Budget
+    editBudget(title: String, label: String, description: String): Budget
     deleteBudget(_id: ID!): Budget
 
     addItem(
