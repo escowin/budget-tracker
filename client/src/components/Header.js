@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
-import Auth from "../utils/auth";
-import Menu from "./Menu";
 
 function Header() {
+  const date = new Date().getFullYear()
   return (
     <header>
-      <nav>{Auth.loggedIn() ? <Menu /> : <Link to="/login">Login</Link>}</nav>
+      <h1>
+        <Link to={"/"} className="link">Budgeteur</Link>
+      </h1>
+      <p>&copy; {date} Edwin m escobar</p>
     </header>
   );
 }
