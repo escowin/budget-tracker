@@ -1,9 +1,9 @@
-# budget-tracker
+# budgeteur
 
 ## Description
-[Repo](https://github.com/escowin/budget-tracker) 
+[Repo](https://github.com/escowin/budgeteur)
 
-Utilizes the MERN tech stack, GraphQL, and IndexedDB to store, access, and calculate financial budgets.
+Utilizes the MERN tech stack, GraphQL, and IndexedDB to calculate, store, and access financial budgets.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -31,11 +31,11 @@ Run the following command to run app:
 $ npm run develop
 ```
 
-![mobile](./assets/img/budget-tracker-sm.jpg)
+![mobile](./assets/img/budgeteur-sm.jpg)
 
-![tablet](./assets/img/budget-tracker-md.jpg)
+![tablet](./assets/img/budgeteur-md.jpg)
 
-![desktop](./assets/img/budget-tracker-lg.jpg)
+![desktop](./assets/img/budgeteur-lg.jpg)
 
 ## Features
 - read, add, update, and delete budgets
