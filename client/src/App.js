@@ -51,9 +51,9 @@ function App() {
           <Header />
           <main>
             <Routes>
-              <Route path="/" element={<Home/>}/>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="*" element={<Page404/>}/>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<Page404 />} />
             </Routes>
           </main>
           <Footer />
