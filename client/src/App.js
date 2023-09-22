@@ -1,24 +1,65 @@
-import logo from './logo.svg';
-import './assets/css/index.css';
+import { ApolloProvider, ApolloClient, createHttpLink } from "@apollo/client";
+import { InMemoryCache } from "@apollo/client/cache";
+import { setContext } from "@apollo/client/link/context";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import "./assets/css/index.css";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Page404 from "./pages/Page404";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+// configures the apollo client's http link for graphql queries
+const httpLink = createHttpLink({ uri: "/graphql" });
+
+// configures authentication for apollo client to include an authorization header in graphql queries
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+// configures how Budget items data is merged in the apollo client's cache
+const mergeBudgetItems = {
+  Budget: {
+    fields: {
+      items: {
+        merge(existing = [], incoming) {
+          return incoming;
+        },
+      },
+    },
+  },
+};
+
+// configures the apollo client instance
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({ typePolicies: mergeBudgetItems }),
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <div className="App">
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="*" element={<Page404/>}/>
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </ApolloProvider>
   );
 }
 
