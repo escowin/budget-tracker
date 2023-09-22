@@ -1,6 +1,6 @@
 :root {
-  --dark: rgb(44, 79, 80);
-  --light: rgb(206, 242, 232);
+  --bg: rgb(44, 79, 80);
+  --txt: rgb(206, 242, 232);
   --red: hsl(0, 50%, 55%);
   --green: rgb(67, 156, 161);
   --grey: rgb(135, 122, 122);
@@ -10,11 +10,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: 1px dotted lightblue;
 }
 
 body {
-  background-color: var(--dark);
-  color: var(--light);
+  background-color: var(--bg);
+  color: var(--txt);
 }
 
 .link {
@@ -35,9 +36,13 @@ nav {
 
 main {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 footer {
   height: max-content;
+}
+
+input {
+  color: var(--bg);
 }

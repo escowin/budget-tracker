@@ -3,9 +3,19 @@ import Auth from "../utils/auth";
 import Menu from "./Menu";
 
 function Footer() {
-    return <footer>
-      <nav>{Auth.loggedIn() ? <Menu /> : <Link to="/login">Login</Link>}</nav>
-              </footer>
+  return (
+    <footer>
+      <nav>
+        {Auth.loggedIn() ? (
+          <Menu />
+        ) : (
+          <Link to="/login" className="link">
+            Login
+          </Link>
+        )}
+      </nav>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;
