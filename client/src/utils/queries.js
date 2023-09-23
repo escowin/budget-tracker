@@ -16,3 +16,26 @@ export const QUERY_SELF = gql`
     }
   }
 `;
+
+export const QUERY_BUDGET = gql`
+  query Budget($id: ID!) {
+    budget(_id: $id) {
+      _id
+      createdAt
+      title
+      label
+      totalIncome
+      totalExpense
+      total
+      description
+      username
+      items {
+        _id
+        type
+        item
+        num
+        note
+      }
+    }
+  }
+`;

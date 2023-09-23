@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./assets/css/index.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Budget from "./pages/Budget";
 import Page404 from "./pages/Page404";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -53,6 +54,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/budget/:id" element={<Budget/>}/>
               <Route path="*" element={<Page404 />} />
             </Routes>
           </main>
