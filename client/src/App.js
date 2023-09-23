@@ -48,7 +48,6 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <>
           <Header />
           <main>
             <Routes>
@@ -59,7 +58,6 @@ function App() {
             </Routes>
           </main>
           <Footer />
-        </>
       </Router>
     </ApolloProvider>
   );
