@@ -7,15 +7,20 @@ import "./assets/css/index.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Budget from "./pages/Budget";
+import AddBudget from "./pages/AddBudget";
 import Page404 from "./pages/Page404";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import AddBudget from "./pages/AddBudget";
 
-// configures the apollo client's http link for graphql queries
-const httpLink = createHttpLink({ uri: "/graphql" });
+// Initializes the Apollo Client instance.
+const client = new ApolloClient({
+  // Configures the Apollo Client instance with the HTTP link, authorization link, and cache settings.
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({ typePolicies: mergeBudgetItems }),
+});
 
-// configures authentication for apollo client to include an authorization header in graphql queries
+// client.link
+// The authorization link to add authentication headers to GraphQL requests.
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("id_token");
   return {
@@ -25,12 +30,16 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+// The HTTP link that defines the GraphQL server's URI.
+const httpLink = createHttpLink({ uri: "/graphql" });
 
-// configures how Budget items data is merged in the apollo client's cache
+// client.cache
+// The cache configuration object
 const mergeBudgetItems = {
   Budget: {
     fields: {
       items: {
+        // defines how data is merged & stored in the Apollo Client's cache.
         merge(existing = [], incoming) {
           return incoming;
         },
@@ -38,12 +47,6 @@ const mergeBudgetItems = {
     },
   },
 };
-
-// configures the apollo client instance
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({ typePolicies: mergeBudgetItems }),
-});
 
 function App() {
   return (
@@ -54,8 +57,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/budget/:id" element={<Budget/>}/>
-              <Route path="/add-budget" element={<AddBudget/>}/>
+              <Route path="/budget/:id" element={<Budget />} />
+              <Route path="/add-budget" element={<AddBudget />} />
               <Route path="*" element={<Page404 />} />
             </Routes>
           </main>

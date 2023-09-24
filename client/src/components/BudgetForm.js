@@ -6,7 +6,6 @@ import { format } from "../utils/helpers";
 function BudgetForm({ type }) {
   // server | type prop determines which mutation is performed
   const [budget, { error }] = useMutation(type === "add" ? ADD_BUDGET : EDIT_BUDGET);
-  console.log(type)
 
   // defines state & form properties to keep component DRY
   const fields = [

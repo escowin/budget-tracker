@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+// Clientside GraphQL schemas designed to mutate data from the client to the server
+// user
 export const LOGIN_USER = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -24,6 +26,7 @@ export const ADD_USER = gql`
   }
 `;
 
+// budget
 export const ADD_BUDGET = gql`
   mutation AddBudget($title: String!, $label: String!, $description: String) {
     addBudget(title: $title, label: $label, description: $description) {
@@ -64,6 +67,7 @@ export const DELETE_BUDGET = gql`
   }
 `;
 
+// item
 export const ADD_ITEM = gql`
   mutation AddItem(
     $budgetId: ID!
