@@ -1,23 +1,26 @@
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+import { format } from "../utils/helpers";
 
-function Menu() {
-  const navLinks = [{ path: "add-budget" }, { path: "profile" }];
+function Menu({ menu }) {
   const logout = (e) => {
     e.preventDefault();
     Auth.logout();
   };
 
+  // onClick is defined through a conditional object
   return (
     <>
-      {navLinks.map((link, i) => (
-        <Link key={i} to={`/${link.path}`} className="link">
-          {link.path}
+      {menu.map((link, i) => (
+        <Link
+          key={i}
+          className="link"
+          to={link === "log-out" ? "/" : `${link}`}
+          {...(link === "log-out" ? { onClick: logout } : {})}
+        >
+          {format.string(link)}
         </Link>
       ))}
-      <a href="/" onClick={logout} className="link">
-        log out
-      </a>
     </>
   );
 }

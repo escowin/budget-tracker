@@ -3,11 +3,12 @@ import Auth from "../utils/auth";
 import Menu from "./Menu";
 
 function Footer() {
+  const menu = ["add-budget", "profile", "log-out"];
   return (
     <footer>
       <nav>
         {Auth.loggedIn() ? (
-          <Menu />
+          <Menu menu={menu} />
         ) : (
           <Link to="/login" className="link">
             Login
