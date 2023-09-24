@@ -7,18 +7,21 @@ import ItemList from "../components/ItemList";
 import Menu from "../components/Menu";
 
 function Budget() {
+  // Boolean defined by local storage jwt's expiration status
   const loggedIn = Auth.loggedIn();
-  // data is received by using param object in graphql query
+  // Defined by using the retrieved url endpoint :id parameter
   const { id: _id } = useParams();
+  // Destructred boolean & object derined from param-dependent graphql query  
   const { loading, data } = useQuery(QUERY_BUDGET, { variables: { id: _id } });
+  // Object is defined as either queried server data or as an empty object
   const budget = data?.budget || {};
 
+  // tbd: use global state to track username. if state username !== budget.username, redirect to Home
   if (!loggedIn) {
     return <section>log in required</section>;
   }
 
-  // tbd: use global state to track username. if username !== budget.username, redirect to Home
-
+  // Conditional render dictated by queried boolean value
   if (loading) {
     return <section>loading...</section>;
   }
@@ -28,9 +31,7 @@ function Budget() {
   // item mutations: post, put, delete.
   // updating budget updates user server & cache data
   return <>
-    <section>
-      <BudgetProfile budget={budget}/>
-    </section>
+      <BudgetProfile budget={budget} type={"section"}/>
     <ItemList items={budget.items}/>
     <section>
       <Menu menu={["edit", "delete", "back"]} type={"btns"}/>

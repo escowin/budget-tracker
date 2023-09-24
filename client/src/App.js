@@ -12,13 +12,6 @@ import Page404 from "./pages/Page404";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-// Initializes the Apollo Client instance.
-const client = new ApolloClient({
-  // Configures the Apollo Client instance with the HTTP link, authorization link, and cache settings.
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({ typePolicies: mergeBudgetItems }),
-});
-
 // client.link
 // The authorization link to add authentication headers to GraphQL requests.
 const authLink = setContext((_, { headers }) => {
@@ -30,6 +23,7 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
 // The HTTP link that defines the GraphQL server's URI.
 const httpLink = createHttpLink({ uri: "/graphql" });
 
@@ -47,6 +41,13 @@ const mergeBudgetItems = {
     },
   },
 };
+
+// Initializes the Apollo Client instance.
+const client = new ApolloClient({
+  // Configures the Apollo Client instance with the HTTP link, authorization link, and cache settings.
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({ typePolicies: mergeBudgetItems }),
+});
 
 function App() {
   return (

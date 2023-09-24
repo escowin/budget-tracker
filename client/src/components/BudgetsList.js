@@ -5,7 +5,7 @@ function BudgetsList({ budgets }) {
   return (
     <section>
       {budgets.map((budget, i) => (
-        <BudgetProfile budget={budget} key={i}/>
+        <BudgetProfile budget={budget} key={i} type={"article"}/>
       ))}
     </section>
   );
