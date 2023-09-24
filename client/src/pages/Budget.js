@@ -4,6 +4,7 @@ import { QUERY_BUDGET } from "../utils/queries";
 import Auth from "../utils/auth";
 import BudgetProfile from "../components/BudgetProfile"
 import ItemList from "../components/ItemList";
+import Menu from "../components/Menu";
 
 function Budget() {
   const loggedIn = Auth.loggedIn();
@@ -11,7 +12,6 @@ function Budget() {
   const { id: _id } = useParams();
   const { loading, data } = useQuery(QUERY_BUDGET, { variables: { id: _id } });
   const budget = data?.budget || {};
-  console.log(budget);
 
   if (!loggedIn) {
     return <section>log in required</section>;
@@ -28,8 +28,13 @@ function Budget() {
   // item mutations: post, put, delete.
   // updating budget updates user server & cache data
   return <>
-    <BudgetProfile budget={budget}/>
+    <section>
+      <BudgetProfile budget={budget}/>
+    </section>
     <ItemList items={budget.items}/>
+    <section>
+      <Menu menu={["edit", "delete", "back"]} type={"btns"}/>
+    </section>
   </>;
 }
 

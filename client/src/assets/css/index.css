@@ -1,21 +1,24 @@
 :root {
-  --bg: rgb(44, 79, 80);
-  --txt: rgb(206, 242, 232);
-  --red: hsl(0, 50%, 55%);
-  --green: rgb(67, 156, 161);
-  --grey: rgb(135, 122, 122);
+  --orange: rgb(233, 219, 192);
+  --blue: rgb(0, 77, 145);
+  --red: rgb(168, 38, 38);
+  --green: rgb(68, 142, 146);
+  --overlay: rgba(121, 160, 219, 0.5);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border: 1px dotted lightblue;
+  border: 1px dotted white;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--txt);
+.red {
+  color: var(--red);
+}
+
+.green {
+  color: var(--green);
 }
 
 .link {
@@ -23,10 +26,27 @@ body {
   text-decoration: none;
 }
 
+input {
+  color: var(--bg);
+}
+
+body {
+  background-color: var(--orange);
+  color: var(--blue);
+}
+
+section {
+  background-color: var(--overlay);
+  border-radius: .25rem;
+  padding: .25rem;
+}
+
 #root {
   display: flex;
   flex-direction: column;
+  gap: .5rem;
   height: 100vh;
+  padding: .25rem;
 }
 
 nav {
@@ -35,14 +55,35 @@ nav {
 }
 
 main {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow-y: hidden;
+  gap: 1rem;
 }
 
 footer {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
   height: max-content;
 }
 
-input {
-  color: var(--bg);
+footer p {
+  align-self: center;
+}
+
+.item {
+  display: grid;
+  gap: .25rem;
+  align-items: baseline;
+  grid-template-columns: 6rem repeat(4, 1fr);
+}
+
+.list-section {
+  flex: 1;
+}
+
+.list {
+  overflow-y: hidden;
 }
