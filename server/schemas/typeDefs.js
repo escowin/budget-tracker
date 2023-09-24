@@ -43,7 +43,12 @@ const typeDefs = gql`
     addUser(username: String!, password: String!): Auth
 
     addBudget(title: String!, label: String!, description: String): Budget
-    editBudget(title: String, label: String, description: String): Budget
+    editBudget(
+      _id: ID!
+      title: String
+      label: String
+      description: String
+    ): Budget
     deleteBudget(_id: ID!): Budget
 
     addItem(
@@ -53,13 +58,16 @@ const typeDefs = gql`
       num: Float!
       note: String
     ): Budget
+
     editItem(
+      _id: ID!
       budgetId: ID!
       item: String
       type: String
       num: Float
       note: String
     ): Budget
+
     deleteItem(_id: ID!, budgetId: ID!): Item
   }
 

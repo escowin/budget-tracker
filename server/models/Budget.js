@@ -16,6 +16,7 @@ const BudgetSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      maxLength: 10,
       validate: {
         validator: (value) => validate.type(value, label),
         message: "invalid label",

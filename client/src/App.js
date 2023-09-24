@@ -10,6 +10,7 @@ import Budget from "./pages/Budget";
 import Page404 from "./pages/Page404";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import AddBudget from "./pages/AddBudget";
 
 // configures the apollo client's http link for graphql queries
 const httpLink = createHttpLink({ uri: "/graphql" });
@@ -54,6 +55,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/budget/:id" element={<Budget/>}/>
+              <Route path="/add-budget" element={<AddBudget/>}/>
               <Route path="*" element={<Page404 />} />
             </Routes>
           </main>
