@@ -1,7 +1,13 @@
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_BUDGET, EDIT_BUDGET } from "../utils/mutations";
 import { format } from "../utils/helpers";
 
 function BudgetForm({ type }) {
+  // server | type prop determines which mutation is performed
+  const [budget, { error }] = useMutation(type === "add" ? ADD_BUDGET : EDIT_BUDGET);
+  console.log(type)
+
   // defines state & form properties to keep component DRY
   const fields = [
     { name: "title", max: 50 },
@@ -22,7 +28,15 @@ function BudgetForm({ type }) {
   // performs graphql mutation
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    
+    // to-do: update user cache w/ succesful mutation
+    try {
+      await budget({
+        variables: { ...formState },
+      })
+    } catch (err) {
+      console.error(err)
+    }
   };
 
   return (
@@ -41,6 +55,7 @@ function BudgetForm({ type }) {
         </label>
       ))}
       <button type="submit">submit</button>
+      {error && <p>error</p>}
     </form>
   );
 }

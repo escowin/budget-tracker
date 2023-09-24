@@ -7,7 +7,7 @@ function Menu({ menu, type }) {
     e.preventDefault();
     Auth.logout();
   };
-  console.log(type)
+  // console.log(type)
 
   // onClick is defined through a conditional object
   return (

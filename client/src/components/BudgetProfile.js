@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 function BudgetProfile({ budget }) {
-  console.log(budget);
+
   return (
     <article className={`item budget ${budget.total >= 0 ? "green" : "red"}`}>
       <h2>
