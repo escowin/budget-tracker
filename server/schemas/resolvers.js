@@ -119,6 +119,19 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError("login required");
       }
+
+      try {
+        const { _id, budgetId, ...updates } = args;
+        const budget = await Budget.findOneAndUpdate(
+          { _id: budgetId, "items._id": _id },
+          { $set: { "items.$": updates } },
+          { new: true, runValidators: true }
+        );
+
+        return budget;
+      } catch (err) {
+        throw new Error(err.message);
+      }
     },
     deleteItem: async (parent, { _id, budgetId }, context) => {
       if (!context.user) {

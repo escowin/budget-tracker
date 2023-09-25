@@ -91,6 +91,25 @@ export const ADD_ITEM = gql`
   }
 `;
 
-// export const EDIT_ITEM = gql``;
+// bug | prints { "data": { "editItem": null } }
+// export const EDIT_ITEM = gql`
+//   mutation EditItem($id: ID!, $budgetId: ID!, $item: String, $type: String, $num: Float, $note: String) {
+//     editItem(_id: $id, budgetId: $budgetId, item: $item, type: $type, num: $num, note: $note) {
+//       items {
+//         _id
+//         item
+//         note
+//         num
+//         type
+//       }
+//     }
+//   }
+// `;
 
-// export const DELETE_ITEM = gql``;
+export const DELETE_ITEM = gql`
+  mutation DeleteItem($id: ID!, $budgetId: ID!) {
+    deleteItem(_id: $id, budgetId: $budgetId) {
+      _id
+    }
+  }
+`;

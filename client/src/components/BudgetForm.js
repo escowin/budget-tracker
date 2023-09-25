@@ -17,7 +17,7 @@ function BudgetForm({ type }) {
           
           if (user) {
             const updatedBudgets = [addBudget , ...user.budgets];
-            console.log(updatedBudgets)
+
             cache.writeQuery({
               query: QUERY_SELF,
               data: {
@@ -59,8 +59,7 @@ function BudgetForm({ type }) {
   // performs graphql mutation
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    // to-do: update user cache w/ succesful mutation
+    
     try {
       await budget({
         variables: { ...formState },
