@@ -33,7 +33,7 @@ function Budget() {
   return (
     <>
       <BudgetProfile budget={budget} type={"section"} />
-      <ItemList items={budget.items} />
+      <ItemList items={budget.items} budgetId={_id}/>
       <section>
         <Menu menu={["edit", "delete", "back"]} type={"btns"} />
       </section>

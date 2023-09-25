@@ -2,7 +2,7 @@ import Item from "./Item";
 import ItemForm from "./ItemForm";
 import Menu from "./Menu";
 
-function ItemList({ items }) {
+function ItemList({ items, budgetId }) {
   return (
     <section className="list-section">
       <ul className="list" id="items">
@@ -10,7 +10,7 @@ function ItemList({ items }) {
           <Item key={i} item={item} />
         ))}
       </ul>
-      <ItemForm/>
+      <ItemForm budgetId={budgetId}/>
       <Menu menu={["add-item"]} type={"button"}/>
     </section>
   );

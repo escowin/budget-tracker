@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM } from "../utils/mutations";
 
-function ItemForm() {
+function ItemForm({ budgetId }) {
   // Server graphql mutation
   const [item, { error }] = useMutation(ADD_ITEM);
 
@@ -10,7 +10,7 @@ function ItemForm() {
   const fields = [
     { name: "item", max: 25, type: "input" },
     { name: "type", max: 10, type: "radio", radios: ["income", "expense"] },
-    { name: "value", max: 1000, type: "number" },
+    { name: "num", max: 1000, type: "number" },
     { name: "note", max: 100, type: "input" },
   ];
 
@@ -29,7 +29,20 @@ function ItemForm() {
   // sends data from client to server
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    // converts `num` key-value from string to float
+    const num = parseFloat(formState.num);
+
+    // client-side value type validation
+    if (!isNaN(num)) {
+      const mutation = { budgetId, ...formState, num: num };
+      try {
+        await item({ variables: { ...mutation } });
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      console.error("Invalid format for 'num'");
+    }
   };
 
   // UI display
@@ -66,7 +79,7 @@ function ItemForm() {
             <input
               id={field.name}
               name={field.name}
-              type={field.ty}
+              type={field.type}
               value={formState[field.name]}
               onChange={handleChange}
             />
