@@ -1,5 +1,4 @@
 function Item({ item }) {
-  console.log(item)
   // clicking on note will open item.note in module
   return (
     <li className="item" id={item._id}>
