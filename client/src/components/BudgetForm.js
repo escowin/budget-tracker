@@ -2,10 +2,40 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_BUDGET, EDIT_BUDGET } from "../utils/mutations";
 import { format } from "../utils/helpers";
+import { QUERY_SELF } from "../utils/queries";
 
 function BudgetForm({ type }) {
   // server | type prop determines which mutation is performed
-  const [budget, { error }] = useMutation(type === "add" ? ADD_BUDGET : EDIT_BUDGET);
+  const [budget, { error }] = useMutation(
+    type === "add" ? ADD_BUDGET : EDIT_BUDGET,
+    {
+      // updates user cache data object
+      update(cache, { data: { addBudget } }) {
+        try {
+          const queryData = cache.readQuery({ query: QUERY_SELF });
+          const user = queryData?.self;
+          
+          if (user) {
+            const updatedBudgets = [addBudget , ...user.budgets];
+            console.log(updatedBudgets)
+            cache.writeQuery({
+              query: QUERY_SELF,
+              data: {
+                self: {
+                  ...user,
+                  budgets: updatedBudgets,
+                  budgetCount: updatedBudgets.length,
+                },
+              },
+            });
+          }
+        } catch (err) {
+          console.error(err);
+          console.warn("saved first budget");
+        }
+      },
+    }
+  );
 
   // defines state & form properties to keep component DRY
   const fields = [
@@ -15,26 +45,28 @@ function BudgetForm({ type }) {
   ];
 
   // maps array object key w/ empty string value to define initial form state
-  const initialState = Object.fromEntries(fields.map((field) => [field.name, ""]));
+  const initialState = Object.fromEntries(
+    fields.map((field) => [field.name, ""])
+  );
   const [formState, setFormState] = useState(initialState);
 
   // updates state object's key-values with corresponding user input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value })
+    setFormState({ ...formState, [name]: value });
   };
 
   // performs graphql mutation
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     // to-do: update user cache w/ succesful mutation
     try {
       await budget({
         variables: { ...formState },
-      })
+      });
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
 

@@ -13,7 +13,7 @@ function Budget() {
   const { id: _id } = useParams();
   // Destructred boolean & object derined from param-dependent graphql query
   const { loading, data } = useQuery(QUERY_BUDGET, { variables: { id: _id } });
-  // Object is defined as either queried server data or as an empty object
+  // Defined as either queried server data or empty
   const budget = data?.budget || {};
 
   // tbd: use global state to track username. if state username !== budget.username, redirect to Home
