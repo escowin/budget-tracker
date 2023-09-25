@@ -1,4 +1,12 @@
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_ITEM } from "../utils/mutations";
+
 function ItemForm() {
+  // Server graphql mutation
+  const [item, { error }] = useMutation(ADD_ITEM);
+
+  // Form
   const fields = [
     { name: "item", max: 25, type: "input" },
     { name: "type", max: 10, type: "radio", radios: ["income", "expense"] },
@@ -6,15 +14,40 @@ function ItemForm() {
     { name: "note", max: 100, type: "input" },
   ];
 
+  // Maps array object key w/ empty string value to define initial form state
+  const initialState = Object.fromEntries(
+    fields.map((field) => [field.name, ""])
+  );
+  const [formState, setFormState] = useState(initialState);
+
+  // user input updates state object's corresponding key-value
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
+  // sends data from client to server
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formState);
+  };
+
+  // UI display
   const radioField = (field) => {
-    console.log(field);
     return (
       <>
         <legend>{field.name}</legend>
         {field.radios.map((radio, i) => (
           <label htmlFor={radio} key={i}>
             {radio}
-            <input type={field.type} id={radio} name={field.name} />
+            <input
+              type={field.type}
+              id={radio}
+              name={field.name}
+              value={radio}
+              checked={formState[field.name] === radio}
+              onChange={handleChange}
+            />
           </label>
         ))}
       </>
@@ -22,7 +55,7 @@ function ItemForm() {
   };
 
   return (
-    <form>
+    <form onSubmit={handleFormSubmit}>
       <h2>Add item</h2>
       {fields.map((field, i) =>
         field.type === "radio" ? (
@@ -30,11 +63,18 @@ function ItemForm() {
         ) : (
           <label key={i} htmlFor={field.name}>
             {field.name}
-            <input id={field.name} name={field.name} type={field.input} />
+            <input
+              id={field.name}
+              name={field.name}
+              type={field.ty}
+              value={formState[field.name]}
+              onChange={handleChange}
+            />
           </label>
         )
       )}
       <button type="submit">submit</button>
+      {error && <p>error</p>}
     </form>
   );
 }
