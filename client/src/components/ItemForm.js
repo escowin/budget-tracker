@@ -6,7 +6,7 @@ function ItemForm({ budgetId }) {
   // Server graphql mutation
   const [item, { error }] = useMutation(ADD_ITEM);
 
-  // Form
+  // Defines attributes of form elements
   const fields = [
     { name: "item", max: 25, type: "input" },
     { name: "type", max: 10, type: "radio", radios: ["income", "expense"] },
@@ -14,25 +14,25 @@ function ItemForm({ budgetId }) {
     { name: "note", max: 100, type: "input" },
   ];
 
-  // Maps array object key w/ empty string value to define initial form state
+  // Creates an initial state object with all fields set to empty strings.
   const initialState = Object.fromEntries(
     fields.map((field) => [field.name, ""])
   );
   const [formState, setFormState] = useState(initialState);
 
-  // user input updates state object's corresponding key-value
+  // Updates the form state by merging its existing values with captured user-input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
 
-  // sends data from client to server
+  // Sends data from client to server
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // converts `num` key-value from string to float
+    // Converts `num` key-value from string to float type
     const num = parseFloat(formState.num);
 
-    // client-side value type validation
+    // Clientside validation | `num` must be a number value to allow mutation 
     if (!isNaN(num)) {
       const mutation = { budgetId, ...formState, num: num };
       try {
@@ -46,6 +46,7 @@ function ItemForm({ budgetId }) {
   };
 
   // UI display
+  // Maps array objects into jsx return. 
   const radioField = (field) => {
     return (
       <>
@@ -67,6 +68,7 @@ function ItemForm({ budgetId }) {
     );
   };
 
+  // Conditoinally renders form elements.
   return (
     <form onSubmit={handleFormSubmit}>
       <h2>Add item</h2>
