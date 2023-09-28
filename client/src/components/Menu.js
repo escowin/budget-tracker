@@ -7,23 +7,29 @@ import Auth from "../utils/auth";
 
 function Menu({ menu, el, ulClass, _id, mutation }) {
   const navigate = useNavigate();
+  const { id: _budgetId } = useParams();
   const [remove] = useMutation(
-    mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM, {
-    update(cache, { data }) {
-      const { self } = cache.readQuery({ query: QUERY_SELF });
-      const updatedBudgets = self.budgets.filter((budget) => budget._id !== _id);
-      cache.writeQuery({
-        query: QUERY_SELF,
-        data: {
-          self: {
-            ...self,
-            budgets: updatedBudgets,
-            budgetCount: updatedBudgets.length
-          }
-        }
-      })
-    },
-  });
+    mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM,
+    {
+      // issue: deleting an item does not update budget cache
+      update(cache, { data }) {
+        const { self } = cache.readQuery({ query: QUERY_SELF });
+        const updatedBudgets = self.budgets.filter(
+          (budget) => budget._id !== _id
+        );
+        cache.writeQuery({
+          query: QUERY_SELF,
+          data: {
+            self: {
+              ...self,
+              budgets: updatedBudgets,
+              budgetCount: updatedBudgets.length,
+            },
+          },
+        });
+      },
+    }
+  );
 
   // DOM elements & attributes
   const Element = el === "link" ? Link : el;
@@ -49,12 +55,16 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
       case "back":
         navigate(-1);
         break;
-      // to-do: delete item needs item _id & budgetId variables
       case "delete":
         try {
-          await remove({ variables: { id: _id } })
+          await remove({
+            variables: {
+              id: _id,
+              ...(mutation !== "budget" ? { budgetId: _budgetId } : {}),
+            },
+          });
         } catch (err) {
-          console.error(err)
+          console.error(err);
         }
         break;
       case "edit":
