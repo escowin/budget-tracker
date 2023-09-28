@@ -1,42 +1,66 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_BUDGET, DELETE_ITEM } from "../utils/mutations";
-import { QUERY_SELF } from "../utils/queries";
+import { QUERY_BUDGET, QUERY_SELF } from "../utils/queries";
 import { format } from "../utils/helpers";
 import Auth from "../utils/auth";
 
-function Menu({ menu, el, ulClass }) {
+function Menu({ menu, el, ulClass, _id, mutation }) {
   const navigate = useNavigate();
-  // const [remove] = useMutation(DELETE_BUDGET, {
-  //   update(cache, { data }) {
-  //     const { self } = cache.readQuery({ query: QUERY_SELF });
-  //   },
-  // });
+  const [remove] = useMutation(
+    mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM, {
+    update(cache, { data }) {
+      const { self } = cache.readQuery({ query: QUERY_SELF });
+      const updatedBudgets = self.budgets.filter((budget) => budget._id !== _id);
+      cache.writeQuery({
+        query: QUERY_SELF,
+        data: {
+          self: {
+            ...self,
+            budgets: updatedBudgets,
+            budgetCount: updatedBudgets.length
+          }
+        }
+      })
+    },
+  });
+
+  // DOM elements & attributes
   const Element = el === "link" ? Link : el;
 
-  const logout = (e) => {
-    e.preventDefault();
-    Auth.logout();
-  };
-
   const linkAttributes = (option) => {
-    return option === "log-out" ? { to: "/", onClick: logout } : { to: option };
+    return option === "log-out"
+      ? { to: "/", onClick: (e) => handleChange(option, e) }
+      : { to: option };
   };
 
   const btnAttributes = (option) => {
     return { onClick: () => handleChange(option) };
   };
 
-  const handleChange = (option) => {
+  // option determines case logic
+  const handleChange = async (option, e) => {
     switch (option) {
-      case "delete":
-        console.log(option);
-        break;
-      case "edit":
-        console.log(option);
+      // bug: logging out throws errors in home, but can still access '/login' endpoint
+      case "log-out":
+        e.preventDefault();
+        Auth.logout();
         break;
       case "back":
         navigate(-1);
+        break;
+      // to-do: delete item needs item _id & budgetId variables
+      case "delete":
+        try {
+          await remove({ variables: { id: _id } })
+        } catch (err) {
+          console.error(err)
+        }
+        break;
+      case "edit":
+        console.log(option + " " + _id);
+        await remove({ variables: { id: _id } });
+        navigate("/");
         break;
       default:
         console.log("invalid case");
