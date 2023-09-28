@@ -1,21 +1,22 @@
-import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import Menu from "./Menu";
 
 function Footer() {
-  const date = new Date().getFullYear()
-  const menu = ["add-budget", "profile", "log-out"];
-  
+  const date = new Date().getFullYear();
+  const menu = {
+    element: "Link",
+    options: ["add-budget", "profile", "log-out"],
+    login: ["login"],
+  };
+
+  // Menu options are determined by user login status
   return (
     <footer>
       <nav>
-        {Auth.loggedIn() ? (
-          <Menu menu={menu} type={"link"} />
-        ) : (
-          <Link to="/login" className="link">
-            Login
-          </Link>
-        )}
+        <Menu
+          el={menu.element}
+          menu={Auth.loggedIn ? menu.options : menu.login}
+        />
       </nav>
       <p>&copy; {date} Edwin m escobar</p>
     </footer>

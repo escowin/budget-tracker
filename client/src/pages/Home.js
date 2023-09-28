@@ -20,6 +20,7 @@ function Home() {
     return <section>Loading...</section>;
   }
 
+  // bug | logging out throws invalid token error
   return (
     // Conditional render dictated by security requirements
     <>

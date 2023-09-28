@@ -2,27 +2,25 @@ import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import { format } from "../utils/helpers";
 
-function Menu({ menu, type }) {
+function Menu({ menu, el, type }) {
   const logout = (e) => {
     e.preventDefault();
     Auth.logout();
   };
-  // console.log(type)
-
   // onClick is defined through a conditional object
   return (
-    <>
-      {menu.map((link, i) => (
+    <ul>
+      {menu.map((option, i) => (
         <Link
           key={i}
           className="link"
-          to={link === "log-out" ? "/" : `${link}`}
-          {...(link === "log-out" ? { onClick: logout } : {})}
+          to={option === "log-out" ? "/" : `${option}`}
+          {...(option === "log-out" ? { onClick: logout } : {})}
         >
-          {format.string(link)}
+          {format.string(option)}
         </Link>
       ))}
-    </>
+    </ul>
   );
 }
 
