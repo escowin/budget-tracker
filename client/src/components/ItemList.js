@@ -1,6 +1,5 @@
 import Item from "./Item";
 import ItemForm from "./ItemForm";
-import Menu from "./Menu";
 
 function ItemList({ items, budgetId }) {
   return (
@@ -11,7 +10,6 @@ function ItemList({ items, budgetId }) {
         ))}
       </ul>
       <ItemForm budgetId={budgetId}/>
-      <Menu menu={["add-item"]} type={"button"}/>
     </section>
   );
 }

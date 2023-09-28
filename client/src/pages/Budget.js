@@ -4,7 +4,6 @@ import { QUERY_BUDGET } from "../utils/queries";
 import Auth from "../utils/auth";
 import BudgetProfile from "../components/BudgetProfile";
 import ItemList from "../components/ItemList";
-import Menu from "../components/Menu";
 
 function Budget() {
   // Boolean defined by local storage jwt's expiration status
@@ -34,9 +33,6 @@ function Budget() {
     <>
       <BudgetProfile budget={budget} el={"section"} inList={false}/>
       <ItemList items={budget.items} budgetId={_id}/>
-      <section>
-        <Menu menu={["edit", "delete", "back"]} type={"btns"} />
-      </section>
     </>
   );
 }

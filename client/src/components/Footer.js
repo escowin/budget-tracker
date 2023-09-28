@@ -4,19 +4,15 @@ import Menu from "./Menu";
 function Footer() {
   const date = new Date().getFullYear();
   const menu = {
-    element: "Link",
-    options: ["add-budget", "profile", "log-out"],
-    login: ["login"],
+    element: "link",
+    options: Auth.loggedIn ? ["add-budget", "profile", "log-out"] : ["login"],
   };
 
   // Menu options are determined by user login status
   return (
     <footer>
       <nav>
-        <Menu
-          el={menu.element}
-          menu={Auth.loggedIn ? menu.options : menu.login}
-        />
+        <Menu el={menu.element} menu={menu.options} />
       </nav>
       <p>&copy; {date} Edwin m escobar</p>
     </footer>

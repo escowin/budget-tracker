@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
+
 function BudgetProfile({ budget, el, inList }) {
-  console.log(inList)
-  // type value defines parent return element
-  const Element = el === "article" ? "article" : "section";
+  // boolean value determines menu options
+  const menu = {
+    element: "button",
+    options: inList ? ["delete"] : ["edit", "delete", "back"],
+  };
+
+  // el value defines semantic div wrapper
+  const Element = el;
 
   // defines static and conditional classes
   const commonClassName = `item budget ${budget.total >= 0 ? "green" : "red"}`;
@@ -30,7 +36,7 @@ function BudgetProfile({ budget, el, inList }) {
   return (
     <Element className={commonClassName}>
       {content}
-      <Menu menu={inList ? ["delete"] : ["edit", "delete"]} el={"button"} />
+      <Menu menu={menu.options} el={menu.element} />
     </Element>
   );
 }
