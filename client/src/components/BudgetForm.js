@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { ADD_BUDGET, EDIT_BUDGET } from "../utils/mutations";
 import { format } from "../utils/helpers";
 import { QUERY_SELF } from "../utils/queries";
 
 function BudgetForm({ type }) {
+  const navigate = useNavigate();
   // server | type prop determines which mutation is performed
   const [budget, { error }] = useMutation(
     type === "add" ? ADD_BUDGET : EDIT_BUDGET,
@@ -14,9 +16,9 @@ function BudgetForm({ type }) {
         try {
           const queryData = cache.readQuery({ query: QUERY_SELF });
           const user = queryData?.self;
-          
+
           if (user) {
-            const updatedBudgets = [addBudget , ...user.budgets];
+            const updatedBudgets = [addBudget, ...user.budgets];
 
             cache.writeQuery({
               query: QUERY_SELF,
@@ -59,11 +61,12 @@ function BudgetForm({ type }) {
   // performs graphql mutation
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       await budget({
         variables: { ...formState },
       });
+      type === "add" && navigate("/");
     } catch (err) {
       console.error(err);
     }
