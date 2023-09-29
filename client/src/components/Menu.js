@@ -8,25 +8,59 @@ import Auth from "../utils/auth";
 function Menu({ menu, el, ulClass, _id, mutation }) {
   const navigate = useNavigate();
   const { id: _budgetId } = useParams();
+
   const [remove] = useMutation(
     mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM,
     {
       // issue: deleting an item does not update budget cache
       update(cache, { data }) {
-        const { self } = cache.readQuery({ query: QUERY_SELF });
-        const updatedBudgets = self.budgets.filter(
-          (budget) => budget._id !== _id
-        );
-        cache.writeQuery({
-          query: QUERY_SELF,
-          data: {
-            self: {
-              ...self,
-              budgets: updatedBudgets,
-              budgetCount: updatedBudgets.length,
-            },
-          },
-        });
+        console.log(data);
+        data.deleteItem
+          ? console.log("delete item obj")
+          : console.log("delete budget obj");
+        switch (true) {
+          case !!data.deleteBudget:
+            console.log("budget case");
+            // const { self } = cache.readQuery({
+            //   query: QUERY_SELF,
+            // });
+            // const updatedBudgets = self.budgets.filter(
+            //   (budget) => budget._id !== _id
+            // );
+            // cache.writeQuery({
+            //   query: QUERY_SELF,
+            //   data: {
+            //     self: {
+            //       ...self,
+            //       budgets: updatedBudgets,
+            //       budgetCount: updatedBudgets.length,
+            //     },
+            //   },
+            // });
+            break;
+          case !!data.deleteItem:
+            console.log("item case");
+            // const { budget } = cache.readQuery({
+            //   query: QUERY_BUDGET,
+            // });
+            // const updatedItems = budget.items.filter(
+            //   (item) => item._id !== _id
+            // );
+            // console.log(updatedItems);
+            // cache.writeQuery({
+            //   query: QUERY_BUDGET,
+            //   data: {
+            //     budget: {
+            //       ...budget,
+            //       items: updatedItems,
+            //       // totalIncome: updatedItems.totalIncome,
+            //     },
+            //   },
+            // });
+            break;
+          default:
+            console.error("invalid case");
+        }
       },
     }
   );
@@ -57,6 +91,7 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
         break;
       case "delete":
         try {
+          console.log(mutation);
           await remove({
             variables: {
               id: _id,
