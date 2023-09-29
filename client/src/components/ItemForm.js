@@ -36,7 +36,9 @@ function ItemForm({ budgetId }) {
     if (!isNaN(num)) {
       const mutation = { budgetId, ...formState, num: num };
       try {
+        // succesful mutation resets form state
         await item({ variables: { ...mutation } });
+        setFormState(initialState);
       } catch (err) {
         console.error(err);
       }

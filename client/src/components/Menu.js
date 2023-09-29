@@ -15,48 +15,56 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
       // issue: deleting an item does not update budget cache
       update(cache, { data }) {
         console.log(data);
-        data.deleteItem
-          ? console.log("delete item obj")
-          : console.log("delete budget obj");
+
         switch (true) {
           case !!data.deleteBudget:
             console.log("budget case");
-            // const { self } = cache.readQuery({
-            //   query: QUERY_SELF,
-            // });
-            // const updatedBudgets = self.budgets.filter(
-            //   (budget) => budget._id !== _id
-            // );
-            // cache.writeQuery({
-            //   query: QUERY_SELF,
-            //   data: {
-            //     self: {
-            //       ...self,
-            //       budgets: updatedBudgets,
-            //       budgetCount: updatedBudgets.length,
-            //     },
-            //   },
-            // });
+            const { self } = cache.readQuery({
+              query: QUERY_SELF,
+            });
+            const updatedBudgets = self.budgets.filter(
+              (budget) => budget._id !== _id
+            );
+            cache.writeQuery({
+              query: QUERY_SELF,
+              data: {
+                self: {
+                  ...self,
+                  budgets: updatedBudgets,
+                  budgetCount: updatedBudgets.length,
+                },
+              },
+            });
             break;
           case !!data.deleteItem:
             console.log("item case");
-            // const { budget } = cache.readQuery({
-            //   query: QUERY_BUDGET,
-            // });
-            // const updatedItems = budget.items.filter(
-            //   (item) => item._id !== _id
-            // );
-            // console.log(updatedItems);
-            // cache.writeQuery({
-            //   query: QUERY_BUDGET,
-            //   data: {
-            //     budget: {
-            //       ...budget,
-            //       items: updatedItems,
-            //       // totalIncome: updatedItems.totalIncome,
-            //     },
-            //   },
-            // });
+            const { budget } = cache.readQuery({
+              query: QUERY_BUDGET,
+              variables: { id: _budgetId },
+            });
+
+            // Calculates properties to update cache data
+            const updatedItems = budget.items.filter((item) => item._id !== _id);
+            const totalIncome = updatedItems
+              .filter((item) => item.type === "income")
+              .reduce((acc, item) => acc + item.num, 0);
+            const totalExpense = updatedItems
+              .filter((item) => item.type === "expense")
+              .reduce((acc, item) => acc + item.num, 0);
+            const total = totalIncome - totalExpense;
+
+            cache.writeQuery({
+              query: QUERY_BUDGET,
+              data: {
+                budget: {
+                  ...budget,
+                  items: updatedItems,
+                  totalIncome,
+                  totalExpense,
+                  total,
+                },
+              },
+            });
             break;
           default:
             console.error("invalid case");
