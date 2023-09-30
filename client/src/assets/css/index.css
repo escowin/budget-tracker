@@ -97,3 +97,17 @@ footer p {
 .list {
   overflow-y: hidden;
 }
+
+.item-form {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.item-form h2 {
+  grid-column: 1 / -1;
+}
+
+.item-form fieldset {
+  display: flex;
+  flex-direction: column;
+}

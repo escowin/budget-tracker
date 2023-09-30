@@ -6,7 +6,8 @@ function BudgetProfile({ budget, el, inList }) {
   const menu = {
     element: "button",
     options: inList ? ["delete"] : ["edit", "delete", "back"],
-    mutation: "budget"
+    mutation: "budget",
+    // id: budget._id
   };
 
   // el value defines semantic div wrapper

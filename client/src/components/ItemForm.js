@@ -3,9 +3,6 @@ import { useMutation } from "@apollo/client";
 import { ADD_ITEM } from "../utils/mutations";
 
 function ItemForm({ budgetId }) {
-  // Server graphql mutation
-  const [item, { error }] = useMutation(ADD_ITEM);
-
   // Defines attributes of form elements
   const fields = [
     { name: "item", max: 25, type: "input" },
@@ -13,6 +10,9 @@ function ItemForm({ budgetId }) {
     { name: "num", max: 1000, type: "number" },
     { name: "note", max: 100, type: "input" },
   ];
+
+  // Server graphql mutation
+  const [item, { error }] = useMutation(ADD_ITEM);
 
   // Creates an initial state object with all fields set to empty strings.
   const initialState = Object.fromEntries(
@@ -32,7 +32,7 @@ function ItemForm({ budgetId }) {
     // Converts `num` key-value from string to float type
     const num = parseFloat(formState.num);
 
-    // Clientside validation | `num` must be a number value to allow mutation 
+    // Clientside validation | `num` must be a number value to allow mutation
     if (!isNaN(num)) {
       const mutation = { budgetId, ...formState, num: num };
       try {
@@ -48,14 +48,13 @@ function ItemForm({ budgetId }) {
   };
 
   // UI display
-  // Maps array objects into jsx return. 
+  // Maps array objects into jsx return.
   const radioField = (field) => {
     return (
       <>
         <legend>{field.name}</legend>
         {field.radios.map((radio, i) => (
           <label htmlFor={radio} key={i}>
-            {radio}
             <input
               type={field.type}
               id={radio}
@@ -64,6 +63,7 @@ function ItemForm({ budgetId }) {
               checked={formState[field.name] === radio}
               onChange={handleChange}
             />
+            {radio}
           </label>
         ))}
       </>
@@ -72,7 +72,7 @@ function ItemForm({ budgetId }) {
 
   // Conditoinally renders form elements.
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} className="item-form">
       <h2>Add item</h2>
       {fields.map((field, i) =>
         field.type === "radio" ? (
