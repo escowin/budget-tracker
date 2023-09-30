@@ -9,8 +9,8 @@ function Item({ item }) {
       <h3>{item.item}</h3>
       <p>{item.type}</p>
       <p>{item.num}</p>
-      <p>note</p>
-      <Menu menu={menu.options} el={menu.el} _id={item._id} mutation={menu.mutation}/>
+      <p>{item.note}</p>
+      <Menu menu={menu} _id={item._id} mutation={menu.mutation}/>
     </li>
   );
 }

@@ -4,7 +4,7 @@ import Menu from "./Menu";
 function BudgetProfile({ budget, el, inList }) {
   // boolean value determines menu options
   const menu = {
-    element: "button",
+    el: "button",
     options: inList ? ["delete"] : ["edit", "delete", "back"],
     mutation: "budget",
     // id: budget._id
@@ -38,7 +38,7 @@ function BudgetProfile({ budget, el, inList }) {
   return (
     <Element className={commonClassName}>
       {content}
-      <Menu menu={menu.options} el={menu.element} _id={budget._id} mutation={menu.mutation} />
+      <Menu menu={menu} _id={budget._id} mutation={menu.mutation} />
     </Element>
   );
 }

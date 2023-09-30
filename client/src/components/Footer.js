@@ -4,7 +4,7 @@ import Menu from "./Menu";
 function Footer() {
   const date = new Date().getFullYear();
   const menu = {
-    element: "link",
+    el: "link",
     options: Auth.loggedIn ? ["add-budget", "profile", "log-out"] : ["login"],
   };
 
@@ -12,7 +12,7 @@ function Footer() {
   return (
     <footer>
       <nav>
-        <Menu el={menu.element} menu={menu.options} />
+        <Menu menu={menu} />
       </nav>
       <p>&copy; {date} Edwin m escobar</p>
     </footer>

@@ -10,13 +10,13 @@ import { updateSelfCache, updateBudgetCache } from "../utils/cache";
 import { format } from "../utils/helpers";
 import Auth from "../utils/auth";
 
-function Menu({ menu, el, ulClass, _id, mutation }) {
+function Menu({ menu, ulClass, _id, mutation }) {
   const navigate = useNavigate();
   const { id: _budgetId } = useParams();
 
   const [remove] = useMutation(
     // mutation determines graphql mutation used
-    mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM,
+    menu.mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM,
     {
       update(cache, { data }) {
         // existing property determines cache update
@@ -51,7 +51,7 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
   });
 
   // DOM elements & attributes
-  const Element = el === "link" ? Link : el;
+  const Element = menu.el === "link" ? Link : menu.el;
 
   const linkAttributes = (option) => {
     return option === "log-out"
@@ -115,11 +115,11 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
 
   return (
     <ul className={ulClass}>
-      {menu.map((option, i) => (
+      {menu.options.map((option, i) => (
         <li key={i}>
           <Element
-            className={el}
-            {...(el === "link"
+            className={menu.el}
+            {...(menu.el === "link"
               ? linkAttributes(option)
               : btnAttributes(option))}
           >

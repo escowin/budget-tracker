@@ -3,7 +3,7 @@ import BudgetProfile from "./BudgetProfile";
 
 function BudgetsList({ budgets }) {
   return (
-    <section>
+    <section className="list-section" id="budget-list">
       {budgets.map((budget, i) => (
         <BudgetProfile key={i} budget={budget} el={"article"} inList={true} />
       ))}
