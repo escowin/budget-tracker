@@ -7,6 +7,7 @@ import { QUERY_SELF } from "../utils/queries";
 
 // to-do: merge budget & item forms into one, pass 'fields' as a prop to determine form elements
 function BudgetForm({ type }) {
+  console.log(type)
   // defines state & form properties to keep component DRY
   const fields = [
     { name: "title", max: 50 },

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_ITEM } from "../utils/mutations";
+import { ADD_ITEM, EDIT_ITEM } from "../utils/mutations";
 
 function ItemForm({ budgetId }) {
   // Defines attributes of form elements

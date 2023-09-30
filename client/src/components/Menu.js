@@ -76,7 +76,6 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
         break;
       case "delete":
         try {
-          console.log(mutation);
           await remove({
             variables: {
               id: _id,
@@ -97,7 +96,7 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
             num: 0,
             type: "income",
             item: "item",
-            note: "note",
+            note: "edit case test",
           };
           await edit({
             variables: {
