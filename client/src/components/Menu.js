@@ -1,6 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { DELETE_BUDGET, DELETE_ITEM } from "../utils/mutations";
+import {
+  DELETE_BUDGET,
+  DELETE_ITEM,
+  EDIT_BUDGET,
+  EDIT_ITEM,
+} from "../utils/mutations";
 import { updateSelfCache, updateBudgetCache } from "../utils/cache";
 import { format } from "../utils/helpers";
 import Auth from "../utils/auth";
@@ -28,6 +33,22 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
       },
     }
   );
+
+  const [edit] = useMutation(mutation === "budget" ? EDIT_BUDGET : EDIT_ITEM, {
+    update(cache, { data }) {
+      console.log(data);
+      switch (true) {
+        case !!data.editBudget:
+          console.log("edit budget");
+          break;
+        case !!data.editItem:
+          console.log("edit item");
+          break;
+        default:
+          console.error("invalid case");
+      }
+    },
+  });
 
   // DOM elements & attributes
   const Element = el === "link" ? Link : el;
@@ -67,9 +88,26 @@ function Menu({ menu, el, ulClass, _id, mutation }) {
         }
         break;
       case "edit":
+        console.log(mutation);
         console.log(option + " " + _id);
-        await remove({ variables: { id: _id } });
-        navigate("/");
+        try {
+          // to-do: pass dynamic form variables edit case
+          const itemVariables = {
+            budgetId: _budgetId,
+            num: 0,
+            type: "income",
+            item: "item",
+            note: "note",
+          };
+          await edit({
+            variables: {
+              id: _id,
+              ...(mutation !== "budget" ? itemVariables : {}),
+            },
+          });
+        } catch (err) {
+          console.error(err);
+        }
         break;
       default:
         console.log("invalid case");
