@@ -1,4 +1,4 @@
-import Item from "./Item";
+import ItemProfile from "./ItemProfile";
 import ItemForm from "./ItemForm";
 
 function ItemList({ items, budgetId }) {
@@ -6,7 +6,7 @@ function ItemList({ items, budgetId }) {
     <section className="list-section">
       <ul className="list" id="items">
         {items.map((item, i) => (
-          <Item key={i} item={item} />
+          <ItemProfile key={i} item={item} />
         ))}
       </ul>
       <ItemForm budgetId={budgetId}/>

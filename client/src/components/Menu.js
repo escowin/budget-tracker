@@ -5,7 +5,7 @@ import { updateSelfCache, updateBudgetCache } from "../utils/cache";
 import { format } from "../utils/helpers";
 import Auth from "../utils/auth";
 
-function Menu({ menu, ulClass, _id }) {
+function Menu({ menu, ulClass, _id, setEditSelected }) {
   const navigate = useNavigate();
   const { id: _budgetId } = useParams();
 
@@ -69,6 +69,7 @@ function Menu({ menu, ulClass, _id }) {
         console.log(menu.model);
         console.log(option + " " + _id);
         console.log(`edit case triggers state switch from ${menu.model}Profile to ${menu.model}Form`);
+        setEditSelected(true)
         break;
       default:
         console.log("invalid case");

@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
+import BudgetForm from "./BudgetForm";
 
 function BudgetProfile({ budget, el, inList }) {
+  // state variables
+  const [editSelected, setEditSelected] = useState(false);
+
   // boolean value determines menu options
   const menu = {
     el: "button",
@@ -37,8 +42,12 @@ function BudgetProfile({ budget, el, inList }) {
 
   return (
     <Element className={commonClassName}>
-      {content}
-      <Menu menu={menu} _id={budget._id} />
+      {!editSelected ? (
+        content
+      ) : (
+        <BudgetForm setEditSelected={setEditSelected} />
+      )}
+      <Menu menu={menu} _id={budget._id} setEditSelected={setEditSelected} />
     </Element>
   );
 }
