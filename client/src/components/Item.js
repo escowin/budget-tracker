@@ -1,7 +1,7 @@
 import Menu from "./Menu";
 
 function Item({ item }) {
-  const menu = { options: ["edit", "delete"], el: "button", mutation: "item" };
+  const menu = { options: ["edit", "delete"], el: "button", model: "item" };
   
   // to-do: clicking on note will open item.note in module
   return (
@@ -10,7 +10,7 @@ function Item({ item }) {
       <p>{item.type}</p>
       <p>{item.num}</p>
       <p>{item.note}</p>
-      <Menu menu={menu} _id={item._id} mutation={menu.mutation}/>
+      <Menu menu={menu} _id={item._id} />
     </li>
   );
 }

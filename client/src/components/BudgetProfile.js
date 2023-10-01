@@ -6,7 +6,7 @@ function BudgetProfile({ budget, el, inList }) {
   const menu = {
     el: "button",
     options: inList ? ["delete"] : ["edit", "delete", "back"],
-    mutation: "budget",
+    model: "budget",
     // id: budget._id
   };
 
@@ -38,7 +38,7 @@ function BudgetProfile({ budget, el, inList }) {
   return (
     <Element className={commonClassName}>
       {content}
-      <Menu menu={menu} _id={budget._id} mutation={menu.mutation} />
+      <Menu menu={menu} _id={budget._id} />
     </Element>
   );
 }

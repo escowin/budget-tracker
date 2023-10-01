@@ -1,22 +1,17 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import {
-  DELETE_BUDGET,
-  DELETE_ITEM,
-  EDIT_BUDGET,
-  EDIT_ITEM,
-} from "../utils/mutations";
+import { DELETE_BUDGET, DELETE_ITEM } from "../utils/mutations";
 import { updateSelfCache, updateBudgetCache } from "../utils/cache";
 import { format } from "../utils/helpers";
 import Auth from "../utils/auth";
 
-function Menu({ menu, ulClass, _id, mutation }) {
+function Menu({ menu, ulClass, _id }) {
   const navigate = useNavigate();
   const { id: _budgetId } = useParams();
 
   const [remove] = useMutation(
     // mutation determines graphql mutation used
-    menu.mutation === "budget" ? DELETE_BUDGET : DELETE_ITEM,
+    menu.model === "budget" ? DELETE_BUDGET : DELETE_ITEM,
     {
       update(cache, { data }) {
         // existing property determines cache update
@@ -33,22 +28,6 @@ function Menu({ menu, ulClass, _id, mutation }) {
       },
     }
   );
-
-  const [edit] = useMutation(mutation === "budget" ? EDIT_BUDGET : EDIT_ITEM, {
-    update(cache, { data }) {
-      console.log(data);
-      switch (true) {
-        case !!data.editBudget:
-          console.log("edit budget");
-          break;
-        case !!data.editItem:
-          console.log("edit item");
-          break;
-        default:
-          console.error("invalid case");
-      }
-    },
-  });
 
   // DOM elements & attributes
   const Element = menu.el === "link" ? Link : menu.el;
@@ -79,7 +58,7 @@ function Menu({ menu, ulClass, _id, mutation }) {
           await remove({
             variables: {
               id: _id,
-              ...(mutation !== "budget" ? { budgetId: _budgetId } : {}),
+              ...(menu.model !== "budget" ? { budgetId: _budgetId } : {}),
             },
           });
         } catch (err) {
@@ -87,26 +66,9 @@ function Menu({ menu, ulClass, _id, mutation }) {
         }
         break;
       case "edit":
-        console.log(mutation);
+        console.log(menu.model);
         console.log(option + " " + _id);
-        try {
-          // to-do: pass dynamic form variables edit case
-          const itemVariables = {
-            budgetId: _budgetId,
-            num: 0,
-            type: "income",
-            item: "item",
-            note: "edit case test",
-          };
-          await edit({
-            variables: {
-              id: _id,
-              ...(mutation !== "budget" ? itemVariables : {}),
-            },
-          });
-        } catch (err) {
-          console.error(err);
-        }
+        console.log(`edit case triggers state switch from ${menu.model}Profile to ${menu.model}Form`);
         break;
       default:
         console.log("invalid case");
