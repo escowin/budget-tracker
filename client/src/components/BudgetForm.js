@@ -6,12 +6,17 @@ import { format } from "../utils/helpers";
 import { QUERY_SELF } from "../utils/queries";
 
 // to-do: merge budget & item forms into one, pass 'fields' as a prop to determine form elements
-function BudgetForm({ type }) {
-  console.log(type)
+function BudgetForm({ type, setSelectedEdit }) {
+  console.log(type);
   // defines state & form properties to keep component DRY
   const fields = [
     { name: "title", max: 50 },
-    { name: "label", max: 10, type: "radio", radios: ["personal", "business", "estate"], },
+    {
+      name: "label",
+      max: 10,
+      type: "radio",
+      radios: ["personal", "business", "estate"],
+    },
     { name: "description", max: 250 },
   ];
 
@@ -68,7 +73,7 @@ function BudgetForm({ type }) {
       await budget({
         variables: { ...formState },
       });
-      type === "add" && navigate("/");
+      type === "add" ? navigate("/") : setSelectedEdit(false);
     } catch (err) {
       console.error(err);
     }

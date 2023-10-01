@@ -116,10 +116,15 @@ footer {
   display: grid;
   gap: .25rem;
   align-items: center;
-  grid-template-columns: 10rem 4rem repeat(3, 1fr) max-content;
+  grid-template-columns: 1fr max-content;
   outline: 1px solid var(--green);
   border-radius: .5rem;
   padding: .25rem;
+
+  & article {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .list-section {

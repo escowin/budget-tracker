@@ -9,7 +9,7 @@ function ItemList({ items, budgetId }) {
           <ItemProfile key={i} item={item} />
         ))}
       </ul>
-      <ItemForm budgetId={budgetId}/>
+      <ItemForm budgetId={budgetId} type={"add"}/>
     </section>
   );
 }

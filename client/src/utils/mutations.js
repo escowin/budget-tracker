@@ -74,8 +74,9 @@ export const ADD_ITEM = gql`
     $item: String!
     $type: String!
     $num: Float!
+    $note: String
   ) {
-    addItem(budgetId: $budgetId, item: $item, type: $type, num: $num) {
+    addItem(budgetId: $budgetId, item: $item, type: $type, num: $num, note: $note) {
       _id
       title
       total
@@ -86,6 +87,7 @@ export const ADD_ITEM = gql`
         item
         type
         num
+        note
       }
     }
   }

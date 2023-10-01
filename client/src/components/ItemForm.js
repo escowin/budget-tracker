@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_ITEM, EDIT_ITEM } from "../utils/mutations";
+import { format } from "../utils/helpers";
 
-function ItemForm({ budgetId }) {
+function ItemForm({ budgetId, type, setSelectedEdit }) {
+  console.log(setSelectedEdit)
   // Defines attributes of form elements
   const fields = [
     { name: "item", max: 25, type: "input" },
@@ -12,7 +14,9 @@ function ItemForm({ budgetId }) {
   ];
 
   // Server graphql mutation
-  const [item, { error }] = useMutation(ADD_ITEM);
+  const [item, { error }] = useMutation(
+    type === "add" ? ADD_ITEM : EDIT_ITEM
+  );
 
   // Creates an initial state object with all fields set to empty strings.
   const initialState = Object.fromEntries(
@@ -35,10 +39,12 @@ function ItemForm({ budgetId }) {
     // Clientside validation | `num` must be a number value to allow mutation
     if (!isNaN(num)) {
       const mutation = { budgetId, ...formState, num: num };
+      console.log(mutation)
       try {
         // succesful mutation resets form state
         await item({ variables: { ...mutation } });
         setFormState(initialState);
+        setSelectedEdit(false)
       } catch (err) {
         console.error(err);
       }
@@ -73,7 +79,7 @@ function ItemForm({ budgetId }) {
   // Conditoinally renders form elements.
   return (
     <form onSubmit={handleFormSubmit} className="item-form">
-      <h2>Add item</h2>
+      <h2>{format.title(type)} item</h2>
       {fields.map((field, i) =>
         field.type === "radio" ? (
           <fieldset key={i}>{radioField(field)}</fieldset>

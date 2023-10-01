@@ -9,8 +9,8 @@ function Menu({ menu, ulClass, _id, setEditSelected }) {
   const navigate = useNavigate();
   const { id: _budgetId } = useParams();
 
+  // model determines graphql delete mutation
   const [remove] = useMutation(
-    // mutation determines graphql mutation used
     menu.model === "budget" ? DELETE_BUDGET : DELETE_ITEM,
     {
       update(cache, { data }) {
@@ -66,9 +66,6 @@ function Menu({ menu, ulClass, _id, setEditSelected }) {
         }
         break;
       case "edit":
-        console.log(menu.model);
-        console.log(option + " " + _id);
-        console.log(`edit case triggers state switch from ${menu.model}Profile to ${menu.model}Form`);
         setEditSelected(true)
         break;
       default:
