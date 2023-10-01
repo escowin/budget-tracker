@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import BudgetForm from "./BudgetForm";
 
-function BudgetProfile({ budget, el, inList }) {
-  // state variables
+function BudgetProfile({ budget, el, inList, idAttr }) {
+  // State variables
   const [editSelected, setEditSelected] = useState(false);
 
-  // boolean value determines menu options
+  // Menu configuartion. Boolean `inList` prop
   const menu = {
     el: "button",
     options: inList ? ["delete"] : ["edit", "delete", "back"],
@@ -15,33 +15,46 @@ function BudgetProfile({ budget, el, inList }) {
     // id: budget._id
   };
 
-  // el value defines semantic div wrapper
+  // Semantic div wrapper defined by `el` prop
   const Element = el;
 
-  // defines static and conditional classes
-  const commonClassName = `item budget ${budget.total >= 0 ? "green" : "red"}`;
+  // Dynamic & conditional attributes used in elements
+  const className = `budget ${inList ? "item" : "profile"} ${
+    budget.total >= 0 ? "green" : "red"
+  }`;
+  const endPoint = `/budget/${budget._id}`;
 
-  // defines child elements
+  // Conditional child elements
   const content = (
     <>
-      <h2>
-        {inList ? (
-          <Link to={`/budget/${budget._id}`} className="link">
+      {inList ? (
+        <>
+          <Link to={endPoint} className="link">
             {budget.title}
           </Link>
-        ) : (
-          budget.title
-        )}
-      </h2>
-      <p>{budget.label}</p>
-      <p className="green">{budget.totalIncome}</p>
-      <p className="red">{budget.totalExpense}</p>
-      <p>{budget.total}</p>
+          <p>{budget.label}</p>
+          <p className="green">{budget.totalIncome}</p>
+          <p className="red">{budget.totalExpense}</p>
+          <p>{budget.total}</p>
+        </>
+      ) : (
+        <>
+          <h2>
+            {budget.label} {budget.title}
+          </h2>
+          <p className="green">income</p>
+          <p className="green">{budget.totalIncome}</p>
+          <p className="red">expense</p>
+          <p className="red">{budget.totalExpense}</p>
+          <p>total</p>
+          <p>{budget.total}</p>
+        </>
+      )}
     </>
   );
 
   return (
-    <Element className={commonClassName}>
+    <Element className={className} id={idAttr}>
       {!editSelected ? (
         content
       ) : (

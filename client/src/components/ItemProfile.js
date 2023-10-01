@@ -8,6 +8,7 @@ function ItemProfile({ item }) {
   const menu = { options: ["edit", "delete"], el: "button", model: "item" };
 
   const content = (
+    // condtional class visually communicates financial impact
     <article>
       <h3>{item.item}</h3>
       <p>{item.type}</p>
@@ -17,7 +18,7 @@ function ItemProfile({ item }) {
   );
   // to-do: clicking on note will open item.note in module
   return (
-    <li className="item" id={item._id}>
+    <li className={`item ${item.type === "income" ? "green" : "red"}`} id={item._id}>
       {!editSelected ? content : <ItemForm type={"edit"} setEditSelected={setEditSelected} />}
       <Menu menu={menu} _id={item._id} setEditSelected={setEditSelected} />
     </li>

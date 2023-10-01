@@ -31,7 +31,7 @@ function Budget() {
   // updating budget updates user server & cache data
   return (
     <>
-      <BudgetProfile budget={budget} el={"section"} inList={false}/>
+      <BudgetProfile budget={budget} el={"section"} inList={false} idAttr={"budget-profile"}/>
       <ItemList items={budget.items} budgetId={_id}/>
     </>
   );
