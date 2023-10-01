@@ -42,6 +42,7 @@ function BudgetProfile({ budget, el, inList, idAttr }) {
           <h2>
             {budget.label} {budget.title}
           </h2>
+          <p className="description">{budget.description}</p>
           <p className="green">income</p>
           <p className="green">{budget.totalIncome}</p>
           <p className="red">expense</p>
@@ -58,9 +59,9 @@ function BudgetProfile({ budget, el, inList, idAttr }) {
       {!editSelected ? (
         content
       ) : (
-        <BudgetForm setEditSelected={setEditSelected} />
+        <BudgetForm setEditSelected={setEditSelected} _id={budget._id} type={"edit"} />
       )}
-      <Menu menu={menu} _id={budget._id} setEditSelected={setEditSelected} />
+      <Menu menu={menu} _id={budget._id} setEditSelected={setEditSelected}/>
     </Element>
   );
 }

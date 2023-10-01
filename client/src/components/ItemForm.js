@@ -3,8 +3,9 @@ import { useMutation } from "@apollo/client";
 import { ADD_ITEM, EDIT_ITEM } from "../utils/mutations";
 import { format } from "../utils/helpers";
 
-function ItemForm({ budgetId, type, setSelectedEdit }) {
-  console.log(setSelectedEdit)
+function ItemForm({ budgetId, type, setEditSelected, _id }) {
+  console.log(budgetId)
+
   // Defines attributes of form elements
   const fields = [
     { name: "item", max: 25, type: "input" },
@@ -14,9 +15,7 @@ function ItemForm({ budgetId, type, setSelectedEdit }) {
   ];
 
   // Server graphql mutation
-  const [item, { error }] = useMutation(
-    type === "add" ? ADD_ITEM : EDIT_ITEM
-  );
+  const [item, { error }] = useMutation(type === "add" ? ADD_ITEM : EDIT_ITEM);
 
   // Creates an initial state object with all fields set to empty strings.
   const initialState = Object.fromEntries(
@@ -30,6 +29,7 @@ function ItemForm({ budgetId, type, setSelectedEdit }) {
     setFormState({ ...formState, [name]: value });
   };
 
+  console.log(type);
   // Sends data from client to server
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -38,13 +38,19 @@ function ItemForm({ budgetId, type, setSelectedEdit }) {
 
     // Clientside validation | `num` must be a number value to allow mutation
     if (!isNaN(num)) {
-      const mutation = { budgetId, ...formState, num: num };
+      const mutation = {
+        budgetId,
+        ...formState,
+        num: num,
+        ...(type === "edit" ? { id: _id } : {}),
+      };
+      console.log(mutation)
 
       try {
         // succesful mutation resets form state
-        await item({ variables: { ...mutation } });
+        await item({ variables: mutation });
         setFormState(initialState);
-        setSelectedEdit(false)
+        setEditSelected(false);
       } catch (err) {
         console.error(err);
       }

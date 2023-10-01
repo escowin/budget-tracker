@@ -6,7 +6,7 @@ function ItemList({ items, budgetId }) {
     <section className="list-section">
       <ul className="list" id="items">
         {items.map((item, i) => (
-          <ItemProfile key={i} item={item} />
+          <ItemProfile key={i} item={item} budgetId={budgetId} />
         ))}
       </ul>
       <ItemForm budgetId={budgetId} type={"add"}/>
