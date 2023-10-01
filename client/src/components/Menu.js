@@ -66,7 +66,8 @@ function Menu({ menu, ulClass, _id, setEditSelected }) {
         }
         break;
       case "edit":
-        setEditSelected(true)
+        // clicking 'edit' button multiple times toggles boolean value
+        setEditSelected(prevValue => !prevValue)
         break;
       default:
         console.log("invalid case");

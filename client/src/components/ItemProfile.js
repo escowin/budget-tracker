@@ -3,7 +3,6 @@ import ItemForm from "./ItemForm"
 import Menu from "./Menu";
 
 function ItemProfile({ item }) {
-  console.log(item)
   // state variables
   const [editSelected, setEditSelected] = useState(false);
   const menu = { options: ["edit", "delete"], el: "button", model: "item" };

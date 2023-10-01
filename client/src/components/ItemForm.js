@@ -39,7 +39,7 @@ function ItemForm({ budgetId, type, setSelectedEdit }) {
     // Clientside validation | `num` must be a number value to allow mutation
     if (!isNaN(num)) {
       const mutation = { budgetId, ...formState, num: num };
-      console.log(mutation)
+
       try {
         // succesful mutation resets form state
         await item({ variables: { ...mutation } });
@@ -96,7 +96,7 @@ function ItemForm({ budgetId, type, setSelectedEdit }) {
           </label>
         )
       )}
-      <button type="submit">submit</button>
+      <button type="submit">{type === "add" ? "submit" : "save"}</button>
       {error && <p>error</p>}
     </form>
   );
